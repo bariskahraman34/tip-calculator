@@ -154,7 +154,7 @@ body{
     font-size: 48px;
     letter-spacing: -1px;
     max-width: 200px;
-    overflow-y: hidden;
+    word-break:break-all;
 }
 
 .reset-btn{
@@ -194,4 +194,17 @@ body{
 .discount-btn:not(.active):hover{
     background: #9FE8DF;
     color: #00474B;
+}
+
+/* Can't zero content styling */
+.number-of-people-container{
+    position: relative;
+}
+.zero{
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #E17457;
+    text-align: right;
+    font-size: 16px;
 }

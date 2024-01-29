@@ -1,5 +1,5 @@
 const billInput = document.querySelector('#bill-input');
-const customDiscount = document.querySelector('#custom-discount-input');
+const customDiscount = document.querySelector('#custom-discount');
 const numberOfPeopleInput = document.querySelector('#number-of-people-input');
 const discountBtns = document.querySelectorAll('.discount-btn');
 const resetBtn = document.querySelector('.reset-btn');
@@ -14,6 +14,8 @@ let discountRate = 0;
 for (const discount of discountBtns) {
     discount.addEventListener('click', e => selectTip(e));
 }
+
+customDiscount.addEventListener('input',e => addCustomDiscount(e))
 
 billInput.addEventListener('input' , e => billInputResult(e))
 
@@ -33,10 +35,27 @@ function handleResetBtn(){
 
 function numberOfPeople(e){
     calcPeopleAgain = e.target.value;
+    totalTip = ((billInput.value * discountRate)/100)
+    if(e.target.value === "0"){
+        document.querySelectorAll('.input-container')[1].style.border = "2px solid #E17052";
+        let notZero = `<span class="zero">Can't be zero</span>`
+        document.querySelector('.number-of-people-container h3').insertAdjacentHTML('afterend',notZero) 
+        return
+    }else{
+        document.querySelectorAll('.input-container')[1].style.border = "2px solid #26C2AE";
+        document.querySelector('.zero').innerHTML = "";
+        
+    }
     if(totalTip > 0){
-        total.textContent = `$${((e.target.value / calcPeopleAgain) + totalTip)}`;
-    }else if(billInput.value > 0){
+        total.textContent = `$${((billInput.value / calcPeopleAgain) + totalTip/calcPeopleAgain)}`;
+        tipAmount.textContent = `$${totalTip/calcPeopleAgain}`;
+    }else if(billInput.value > 0 && totalTip <= 0){
         total.textContent = `$${billInput.value / calcPeopleAgain}`;
+        tipAmount.textContent = `$0.00`;
+    }
+    if(calcPeopleAgain == ""){
+        total.textContent = "$0.00"
+        tipAmount.textContent = "$0.00"
     }
     handleResetBtn()
 }
@@ -57,7 +76,6 @@ function billInputResult(e){
 
 function selectTip(e){
     e.preventDefault();
-    
     if(numberOfPeopleInput.value > 0 && !isNaN(numberOfPeopleInput.value)){
         for (const discount of discountBtns) {
             if(e.target == discount){
@@ -66,10 +84,10 @@ function selectTip(e){
                 discount.classList.remove('active');
             }
         }
-        totalTip = ((billInput.value * e.target.dataset.value)/100)/numberOfPeopleInput.value
         discountRate = e.target.dataset.value;
-        tipAmount.textContent = `$${((billInput.value * e.target.dataset.value)/100)/numberOfPeopleInput.value}`;
-        total.textContent = `$${eval((billInput.value / numberOfPeopleInput.value) + totalTip)}`
+        totalTip = (((billInput.value * discountRate)/100)/numberOfPeopleInput.value)
+        tipAmount.textContent = `$${(((billInput.value * discountRate)/100)/numberOfPeopleInput.value)}`;
+        total.textContent = `$${((billInput.value / numberOfPeopleInput.value) + totalTip)}`
     }else{
         tipAmount.textContent = "Error";
         billInput.value = "Error";
@@ -90,6 +108,7 @@ function resetBoard(){
     tipAmount.textContent = "$0.00"
     total.textContent = "$0.00";
     numberOfPeopleInput.value = "";
+    customDiscount.value = "";
     for (const discount of discountBtns) {
         discount.classList.remove('active');
     }
@@ -97,3 +116,22 @@ function resetBoard(){
     resetBtn.classList.add('not-active');
 }
 
+function addCustomDiscount(e){
+    if(e.target.value != ""){
+        for (const discount of discountBtns) {
+            discount.classList.remove('active');
+        }
+        discountRate = e.target.value;
+        if(numberOfPeopleInput.value > 0 && !isNaN(numberOfPeopleInput.value)){
+            totalTip = (((billInput.value * discountRate)/100)/numberOfPeopleInput.value)
+            tipAmount.textContent = `$${(((billInput.value * discountRate)/100)/numberOfPeopleInput.value)}`;
+            total.textContent = `$${eval((billInput.value / numberOfPeopleInput.value) + totalTip)}`
+        }else{
+            tipAmount.textContent = "Error";
+            billInput.value = "Error";
+            numberOfPeopleInput.value = "Error";
+            setTimeout(hideError,1000)
+        }
+        handleResetBtn();
+    }
+}
