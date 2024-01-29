@@ -86,10 +86,10 @@ function hideError(){
 }
 
 function resetBoard(){
-    billInput.value = "0";
+    billInput.value = "";
     tipAmount.textContent = "$0.00"
     total.textContent = "$0.00";
-    numberOfPeopleInput.value = 0;
+    numberOfPeopleInput.value = "";
     for (const discount of discountBtns) {
         discount.classList.remove('active');
     }
