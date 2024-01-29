@@ -8,3 +8,13 @@ body{
     font-family: 'Space Mono', monospace;
     background: #C5E4E7;
 }
+
+.splitter{
+    display: block;
+    margin-top: 160px;
+    margin-inline: auto;
+}
+
+.container{
+    width: 920px;
+}
