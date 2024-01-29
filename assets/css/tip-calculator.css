@@ -171,3 +171,19 @@ body{
     padding: 10px;
 }
 /* Right Side Ended */
+
+/* Active Classes */
+
+.discount-btn.active{
+    background: #26C2AE;
+    color: #00474B;
+}
+
+.reset-btn.active{
+    background: #26C2AE;
+    pointer-events: initial;
+}
+
+.reset-btn.not-active{
+    pointer-events: none;
+}
