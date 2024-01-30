@@ -207,4 +207,9 @@ body{
     color: #E17457;
     text-align: right;
     font-size: 16px;
+    display: none;
+}
+
+.zero.active{
+    display: block;
 }

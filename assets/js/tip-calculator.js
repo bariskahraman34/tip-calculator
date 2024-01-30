@@ -5,6 +5,7 @@ const discountBtns = document.querySelectorAll('.discount-btn');
 const resetBtn = document.querySelector('.reset-btn');
 const tipAmount = document.querySelector('#tip-amount-result');
 const total = document.querySelector('#total-result');
+const zero = document.querySelector('.zero');
 
 let bill = 0;
 let numOfPeople = 0;
@@ -35,35 +36,27 @@ function handleResetBtn(){
 }
 
 function numberOfPeople(e){
-    numOfPeople = e.target.value;
-    // if(numOfPeople === "0"){
-    //     document.querySelectorAll('.input-container')[1].style.border = "2px solid #E17052";
-    //     let notZero = `<span class="zero">Can't be zero</span>`
-    //     document.querySelector('.number-of-people-container h3').insertAdjacentHTML('afterend',notZero) 
-    //     return
-    // }else{
-    //     document.querySelectorAll('.input-container')[1].style.border = "2px solid #26C2AE";
-    //     document.querySelector('.zero').innerHTML = "";
-    // }
-    if(numOfPeople > 0 && bill > 0 && discountRate > 0){
+    numOfPeople = Number(e.target.value);
+    if(numOfPeople === 0){
+        document.querySelectorAll('.input-container')[1].style.border = "2px solid #E17052";
+        zero.classList.add('active');
+        return
+    }else{
+        document.querySelectorAll('.input-container')[1].style.border = "2px solid #26C2AE";
+        zero.classList.remove('active');
         calculateTip(bill,numOfPeople,discountRate);
     }
 }
 
 function billInputResult(e){
-    bill = e.target.value;
-    // if(bill === "0"){
-    //     document.querySelectorAll('.input-container')[0].style.border = "2px solid #E17052";
-    //     let notZero = `<span class="zero">Can't be zero</span>`
-    //     document.querySelector('.number-of-people-container h3').insertAdjacentHTML('afterend',notZero) 
-    //     return
-    // }else{
-    //     document.querySelectorAll('.input-container')[0].style.border = "2px solid #26C2AE";
-    //     document.querySelector('.zero').innerHTML = "";
-    // }
-    if(numOfPeople > 0 && bill > 0 && discountRate > 0){
-        calculateTip(bill,numOfPeople,discountRate);
+    bill = Number(e.target.value);
+    if(bill === 0){
+        document.querySelectorAll('.input-container')[0].style.border = "2px solid #E17052";
+        return
+    }else{
+        document.querySelectorAll('.input-container')[0].style.border = "2px solid #26C2AE";
     }
+    calculateTip(bill,numOfPeople,discountRate);
 }
 
 function selectTip(e){
@@ -75,10 +68,8 @@ function selectTip(e){
             discount.classList.remove('active');
         }
     }
-    discountRate = e.target.dataset.value;
-    if(numOfPeople > 0 && bill > 0 && discountRate > 0){
-        calculateTip(bill,numOfPeople,discountRate);
-    }
+    discountRate = Number(e.target.dataset.value);
+    calculateTip(bill,numOfPeople,discountRate);
 }
 
 function addCustomDiscount(e){
@@ -86,15 +77,19 @@ function addCustomDiscount(e){
         for (const discount of discountBtns) {
             discount.classList.remove('active');
         }
-        discountRate = e.target.value;
-        if(numOfPeople > 0 && bill > 0 && discountRate > 0){
-            calculateTip(bill,numOfPeople,discountRate);
-        }
+        discountRate = Number(e.target.value);
+        calculateTip(bill,numOfPeople,discountRate);
     }
 }
 
 function calculateTip(bill,numOfPeople,discountRate){
-    console.log(bill,numOfPeople,discountRate);
+    totalTipPerPerson = bill * discountRate / 100 / numOfPeople;
+    totalPerPerson = (bill + bill * discountRate / 100) / numOfPeople;
+    if(numOfPeople > 0 && bill > 0 && discountRate > 0){
+        tipAmount.textContent = `$${totalTipPerPerson.toFixed(2)}`
+        total.textContent = `$${totalPerPerson.toFixed(2)}`
+    }
+    handleResetBtn()
 }
 
 function resetBoard(){
