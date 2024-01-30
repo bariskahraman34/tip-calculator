@@ -34,7 +34,8 @@ body{
     display: flex;
     flex-direction: column;
     gap: 40px;
-    width: 379px;
+    flex-basis: 379px;
+    flex-shrink: 1;
 }
 
 .bill-container{
@@ -126,7 +127,8 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 413px;
+    flex-basis: 413px;
+    flex-shrink: 1;
 }
 
 .right-side-input-container{
