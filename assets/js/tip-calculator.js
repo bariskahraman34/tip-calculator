@@ -26,7 +26,7 @@ numberOfPeopleInput.addEventListener('input' , e => numberOfPeople(e))
 resetBtn.addEventListener('click',resetBoard)
 
 function handleResetBtn(){
-    if(total.textContent != "$0.00"){
+    if(numberOfPeopleInput.value != "" || billInput.value != ""){
         resetBtn.classList.add('active');
         resetBtn.classList.remove('not-active');
     }else{
@@ -36,11 +36,12 @@ function handleResetBtn(){
 }
 
 function numberOfPeople(e){
+    e.preventDefault();
     numOfPeople = Number(e.target.value);
+    handleResetBtn()
     if(numOfPeople === 0){
         document.querySelectorAll('.input-container')[1].style.border = "2px solid #E17052";
         zero.classList.add('active');
-        return
     }else{
         document.querySelectorAll('.input-container')[1].style.border = "2px solid #26C2AE";
         zero.classList.remove('active');
@@ -49,6 +50,8 @@ function numberOfPeople(e){
 }
 
 function billInputResult(e){
+    e.preventDefault();
+    handleResetBtn()
     bill = Number(e.target.value);
     if(bill === 0){
         document.querySelectorAll('.input-container')[0].style.border = "2px solid #E17052";
@@ -73,6 +76,7 @@ function selectTip(e){
 }
 
 function addCustomDiscount(e){
+    e.preventDefault();
     if(e.target.value != ""){
         for (const discount of discountBtns) {
             discount.classList.remove('active');
@@ -83,13 +87,15 @@ function addCustomDiscount(e){
 }
 
 function calculateTip(bill,numOfPeople,discountRate){
-    totalTipPerPerson = bill * discountRate / 100 / numOfPeople;
-    totalPerPerson = (bill + bill * discountRate / 100) / numOfPeople;
+    handleResetBtn()
     if(numOfPeople > 0 && bill > 0 && discountRate > 0){
+        totalTipPerPerson = bill * discountRate / 100 / numOfPeople;
+        totalPerPerson = (bill + bill * discountRate / 100) / numOfPeople;
         tipAmount.textContent = `$${totalTipPerPerson.toFixed(2)}`
         total.textContent = `$${totalPerPerson.toFixed(2)}`
+    }else{
+        return
     }
-    handleResetBtn()
 }
 
 function resetBoard(){
@@ -98,6 +104,11 @@ function resetBoard(){
     total.textContent = "$0.00";
     numberOfPeopleInput.value = "";
     customDiscount.value = "";
+    bill = 0;
+    numOfPeople = 0;
+    discountRate = 0;
+    totalTipPerPerson = 0;
+    totalPerPerson = 0;
     for (const discount of discountBtns) {
         discount.classList.remove('active');
     }
