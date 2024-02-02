@@ -18,6 +18,7 @@ body{
 .container{
     width: 920px;
     margin-top: 88px;
+    margin-bottom: 88px;
     margin-inline: auto;
     border-radius: 25px;
     background: #FFF;
