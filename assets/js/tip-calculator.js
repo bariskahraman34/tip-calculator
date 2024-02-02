@@ -23,7 +23,7 @@ billInput.addEventListener('input' , e => billInputResult(e))
 
 numberOfPeopleInput.addEventListener('input' , e => numberOfPeople(e))
 
-resetBtn.addEventListener('click',resetBoard)
+resetBtn.addEventListener('click',e => resetBoard(e))
 
 function handleResetBtn(){
     if(numberOfPeopleInput.value != "" || billInput.value != ""){
@@ -98,7 +98,8 @@ function calculateTip(bill,numOfPeople,discountRate){
     }
 }
 
-function resetBoard(){
+function resetBoard(e){
+    e.preventDefault();
     billInput.value = "";
     tipAmount.textContent = "$0.00"
     total.textContent = "$0.00";
